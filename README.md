@@ -110,6 +110,8 @@ explicitly in your report. The restore itself, and the delete, both leave direct
 * A Windows Server 2019 domain controller (Recycle Bin in use): three same-named tombstones, SID/RID-based
   disambiguation, the ambiguity refusal, a real restore (`modify result: True`), independent confirmation of
   the restored DN with `ldapsearch`, and a clean return to the tombstone state afterwards.
+* A Windows Server 2008 R2 domain (different forest): objects with **no SID** (GPO tombstones), computer and
+  group tombstones, and `lastKnownParent` under nested OUs — all listed and matched correctly.
 * The wrong modify shape was reproduced too, so the tool's failure hints match reality (`unwillingToPerform`
   for `isDeleted=FALSE`, `noSuchObject` for a mangled tombstone DN).
 * Offline unit tests for SID/GUID/DN/identity handling: `tests/test_offline.py`.

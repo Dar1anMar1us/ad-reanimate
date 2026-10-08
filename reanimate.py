@@ -273,12 +273,17 @@ def print_table(rows):
     if not rows:
         print("(no deleted objects returned — check --base, bind rights, and that the Recycle Bin is enabled)")
         return
-    hdr = "{:<3} {:<22} {:<12} {:<36} {:<30}".format("#", "name", "RID", "GUID", "lastKnownParent")
+    hdr = "{:<3} {:<26} {:<7} {:<36} {:<10} {}".format("#", "name", "RID", "GUID", "SID?", "lastKnownParent")
     print(hdr)
     print("-" * len(hdr))
     for i, t in enumerate(rows, 1):
-        print("{:<3} {:<22} {:<12} {:<36} {:<30}".format(
-            i, (t["name"] or t["sam"])[:22], str(t["rid"]), t["guid"], t["last_known_parent"][:30]))
+        print("{:<3} {:<26} {:<7} {:<36} {:<10} {}".format(
+            i,
+            (t["name"] or t["sam"])[:26],
+            "None" if t["rid"] is None else t["rid"],
+            t["guid"],
+            "no" if not t["sid"] else "yes",
+            t["last_known_parent"] or "-"))
 
 
 def cmd_list(args):
