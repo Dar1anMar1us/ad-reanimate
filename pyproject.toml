@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reanimate"
+version = "0.1.0"
+description = "List and restore Active Directory objects deleted into the AD Recycle Bin, over LDAP from Linux"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Dar1anMar1us" }]
+keywords = ["active-directory", "ldap", "recycle-bin", "tombstone", "pentest", "offensive-security"]
+dependencies = ["ldap3>=2.9"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Security",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+Homepage = "https://github.com/Dar1anMar1us/ad-reanimate"
+Issues = "https://github.com/Dar1anMar1us/ad-reanimate/issues"
+
+[project.scripts]
+reanimate = "reanimate:main"
+
+[tool.setuptools]
+py-modules = ["reanimate"]
