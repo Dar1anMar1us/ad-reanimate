@@ -143,6 +143,20 @@ try:
 except ValueError:
     check("missing parent refuses", "ValueError", "ValueError")
 
+try:
+    # live case: a GPO-linked 'Machine'/'User' object whose parent GPO is itself a tombstone
+    R.restored_dn({"raw_name": "Machine\nDEL:93c23674-e411-400b-bb9f-c0340bda5a34",
+                   "last_known_parent": "CN={A403B701-A528-4685-A816-FDEE32BDDCBA}\\0ADEL:"
+                                        "ff5c2fdc-cc11-44e3-ae4c-071aab2ccc6e,CN=Deleted Objects,DC=cascade,DC=local"})
+    check("deleted parent refuses", "no exception", "ValueError")
+except ValueError:
+    check("deleted parent refuses", "ValueError", "ValueError")
+check("but --new-parent still allows it",
+      R.restored_dn({"raw_name": "Machine\nDEL:93c23674-e411-400b-bb9f-c0340bda5a34",
+                     "last_known_parent": "CN=x\0DEL:y,CN=Deleted Objects,DC=cascade,DC=local"},
+                    new_parent="OU=UK,DC=cascade,DC=local"),
+      "CN=Machine,OU=UK,DC=cascade,DC=local")
+
 # ── CLI surface ───────────────────────────────────────────────────────────────
 print("CLI")
 p = R.build_parser()

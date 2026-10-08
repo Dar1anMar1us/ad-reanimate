@@ -133,6 +133,9 @@ def restored_dn(row, new_name=None, new_parent=None):
     parent = new_parent or row.get("last_known_parent")
     if not parent:
         raise ValueError("lastKnownParent is missing — pass --new-parent (refusing to guess the OU)")
+    if "DEL:" in parent:
+        raise ValueError("lastKnownParent is itself a deleted object ({}…) — restore the parent first, "
+                         "or pass --new-parent".format(parent[:70]))
     return "{},{}".format(rdn, parent)
 
 
